@@ -1,5 +1,5 @@
 
-import { ZX } from '/zx-bitmap.js';
+import { ZX } from './zx-bitmap.js';
 
 const appMenu = document.getElementById('app-menu');
 const popoverButtons = [...appMenu.querySelectorAll('button[popovertarget]')];

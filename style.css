@@ -190,7 +190,7 @@ menu#colours {
                 & > span {
                     height: 3rem;
                     &.keep {
-                        background: transparent url('/icons/keep.svg') no-repeat center center;
+                        background: transparent url('./icons/keep.svg') no-repeat center center;
                         background-size: cover;
                     }
                 }
