@@ -1,0 +1,210 @@
+:root {
+    --control-bg: #f0f0f0;
+    --control-hover-bg: #e0e0e0;
+    --control-selected-bg: #d0d0d0;
+    --hairline: rgba(0, 0, 0, 0.25);
+    user-select: none;
+}
+
+body, div, menu, ul, li, nav, section, header, footer, h1, h2, h3, p, span, em, strong, u, a, button {
+    box-sizing: border-box;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: inherit;
+    color: inherit;
+    text-decoration: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    text-align: inherit;
+    text-transform: inherit;
+}
+
+[popover] {
+    display: none;
+}
+[popover]:popover-open {
+    display: block;
+}
+
+span, em, strong, u, a {
+    display: inline;
+}
+
+u {
+    text-decoration: underline;
+}
+
+html {
+    display: block;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    inset: 0 0 0 0;
+}
+
+body {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    inset: 0 0 0 0;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: auto 1fr auto;
+}
+
+menu#app-menu {
+    display: flex;
+    grid-row: 1/2;
+    grid-column: 1/4;
+    flex-direction: row;
+    padding: 0 1rem;
+    background-color: var(--control-bg);
+    border-bottom: 1px solid var(--hairline);
+
+    & li {
+        position: relative;
+        & > h1 {
+            padding: 0.5rem 0.5rem 0.5rem 2.0rem;
+            background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='black' width='32' height='32' rx='4'/%3E%3Cline stroke='%23FF1F1F' x1='20' y1='-4' x2='8' y2='36' stroke-width='4' /%3E%3Cline stroke='%23FFC610' x1='24' y1='-4' x2='12' y2='36' stroke-width='4' /%3E%3Cline stroke='%233D9B00' x1='28' y1='-4' x2='16' y2='36' stroke-width='4' /%3E%3Cline stroke='%2300A7E1' x1='32' y1='-4' x2='20' y2='36' stroke-width='4' /%3E%3C/svg%3E") no-repeat 0rem center;
+            background-size: 1.5rem 1.5rem;
+        }
+        & > button {
+            cursor: pointer;
+            padding: 0.5rem;
+            width: 100%;
+            &:hover {
+                background-color: var(--control-hover-bg);
+            }
+            &.selected {
+                background-color: var(--control-selected-bg);
+                border-color: var(--hairline);
+                &:hover {
+                    background-color: var(--control-hover-bg);
+                }
+            
+            }
+        }
+        & > [popover] {
+            position: absolute;
+            box-shadow: 0 0.2rem 0.3rem rgba(0, 0, 0, 0.25);
+            & menu {
+                display: flex;
+                padding: 0 1rem;
+                background-color: var(--control-bg);
+                border-bottom: 1px solid var(--hairline);
+                flex-direction: column;
+                padding: 0;
+                min-width: 10rem;
+                align-items: stretch;
+            }
+            ::backdrop {
+                background-color: rgba(127, 127, 127, 0.2);
+            }
+        }
+    }
+}
+
+menu#paint-tools {
+    display: flex;
+    grid-row: 2/3;
+    grid-column: 1/2;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    width: 8rem;
+    align-content: flex-start;
+    justify-content: space-around;
+    background-color: var(--control-bg);
+    & > li {
+        &.heading {
+            width: 100%;
+            font-weight: bold;
+            padding: 0.25rem;
+            background-color: #333;
+            color: #fff;
+        }
+
+        & > button {
+            cursor: pointer;
+            padding: 0.25rem;
+            background-color: var(--control-bg);
+            border: 1px solid transparent;
+
+            &:hover {
+                background-color: var(--control-hover-bg);
+            }
+            &.selected {
+                background-color: var(--control-selected-bg);
+                border-color: var(--hairline);
+                &:hover {
+                    background-color: var(--control-hover-bg);
+                }
+            }
+
+            & > img {
+                width: 1rem;
+                height: 1rem;
+                display: block;
+            }
+        }
+    }
+}
+
+menu#colours {
+    display: flex;
+    grid-row: 2/3;
+    grid-column: 3/4;
+    flex-direction: column;
+    gap: 0.25rem;
+    width: 8rem;
+    background-color: var(--control-bg);
+    justify-content: flex-start;
+    align-items: stretch;
+    & > li {
+        & > button {
+            cursor: pointer;
+            padding: 0.25rem;
+            width: 100%;
+            & > span {
+                display: block;
+                width: 100%;
+                height: 1rem;
+                border: 1px solid var(--hairline);
+            }
+        }
+        &#current-colours {
+            display: flex;
+            flex-direction: row;
+            & > button {
+                &.selected {
+                    & > span {
+                        border-width: 3px;
+                    }
+                }
+                & > span {
+                    height: 3rem;
+                    &.keep {
+                        background: transparent url('/icons/keep.svg') no-repeat center center;
+                        background-size: cover;
+                    }
+                }
+            }
+        }
+    }
+}
+
+canvas#paint-canvas {
+    display: block;
+    image-rendering: pixelated;
+    grid-column: 2/3;
+    grid-row: 2/4;
+    align-self: stretch;
+    justify-self: stretch;
+    touch-action: none;
+}
