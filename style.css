@@ -208,3 +208,69 @@ canvas#paint-canvas {
     justify-self: stretch;
     touch-action: none;
 }
+
+dialog::backdrop {
+    background-color: rgba(127, 127, 127, 0.5);
+    backdrop-filter: blur(0.25rem);
+}
+
+dialog[open] {
+    display: grid;
+    padding: 0;
+    gap: 0.5rem;
+    grid-template-columns: 0 1fr auto auto 0;
+    grid-template-rows: auto 1fr auto 0;
+    user-select: none;
+    
+    & > h1 {
+        grid-row: 1/2;
+        grid-column: 1/6;
+        background-color: #000;
+        color: #fff;
+        text-align: left;
+        padding: 0.5rem 1rem;
+    }
+
+    & > ul.file-list {
+        grid-row: 2/3;
+        grid-column: 2/5;
+        min-width: 20rem;
+        min-height: 8rem;
+        max-height: 50vh;
+        overflow-y: scroll;
+
+        & > li {
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+            background-color: var(--control-bg);
+            cursor: pointer;
+            padding: 0.1rem 0.5rem;
+            &.selected {
+                background-color: var(--control-selected-bg);
+                font-weight: bold;
+            }
+            &:hover {
+                background-color: var(--control-hover-bg);
+            }
+        }
+    }
+
+    & > button {
+        grid-row: 3/4;
+        background-color: var(--control-bg);
+        border: 1px solid var(--hairline);
+        padding: 0.5rem;
+        cursor: pointer;
+        &:hover {
+            background-color: var(--control-hover-bg);
+        }
+
+        &.cancel-button {
+            grid-column: 4/5;
+        }
+
+        &.ok-button {
+            grid-column: 3/4;
+        }
+    }
+}   

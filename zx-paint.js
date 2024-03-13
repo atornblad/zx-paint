@@ -1,5 +1,6 @@
 
 import { ZX } from './zx-bitmap.js';
+import { getDialog } from './dialogs.js';
 
 const appMenu = document.getElementById('app-menu');
 const popoverButtons = [...appMenu.querySelectorAll('button[popovertarget]')];
@@ -94,6 +95,42 @@ const commands = {
             state.zoom -= 1;
             repaint();
         }
+    },
+    new: () => {
+        // TODO: First check if there are unsaved changes
+        Object.assign(state, {
+            tool: 'pencil',
+            colourmode: 'colours',
+            colourtarget: 'foreground',
+            foreground: 0,
+            background: 7,
+            bright: 0,
+            zoom: 4
+        });
+        bitmap.ink(0);
+        bitmap.paper(7);
+        bitmap.bright(0);
+        bitmap.cls();
+        repaint();
+    },
+    open: () => {
+        const openFileDialog = getDialog('open-file-dialog');
+        const fileListValue = window.localStorage.getItem('fileList');
+        const fileList = fileListValue ? JSON.parse(fileListValue) : [];
+        openFileDialog.filenames = fileList;
+        openFileDialog.onClose = (returnValue) => {
+            if (returnValue) {
+                console.log(openFileDialog.selectedFile);
+                bitmap.ink(0);
+                bitmap.paper(7);
+                bitmap.bright(0);
+                bitmap.load(window.localStorage.getItem(openFileDialog.selectedFile));
+            }
+        };
+        openFileDialog.showModal();
+    },
+    save: () => {
+
     }
 };
 
@@ -278,4 +315,21 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', () => {
     applyCanvasSize();
-})
+});
+
+
+const fileListValue = window.localStorage.getItem('fileList');
+const fileList = fileListValue ? JSON.parse(fileListValue) : [];
+if (fileList.length == 0) {
+    const examplesModulePromise = import('./examples.js');
+    examplesModulePromise.then((examplesModule) => {
+        for (const funcName in examplesModule) {
+            console.log(funcName);
+            const filename = `${funcName}.scr`;
+            const fileContent = examplesModule[funcName]();
+            fileList.push(filename);
+            window.localStorage.setItem(filename, fileContent);
+        }
+        window.localStorage.setItem('fileList', JSON.stringify(fileList));
+    });
+}

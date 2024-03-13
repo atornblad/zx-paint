@@ -1,4 +1,6 @@
 
+import { base64ToUint8ClampedArray } from './base64.js';
+
 const DEBUGOUTPUT = false;
 
 const WIDTH = 256;
@@ -300,6 +302,17 @@ x: 0..31
     this['realSpectrumCoords'] = function(value) {
         realSpectrumCoords = value ? 1 : 0;
     };
+
+    this['load'] = function(data) {
+        const temp = base64ToUint8ClampedArray(data);
+        for (var i = 0; i < TOTALSIZE && i < temp.length; ++i) {
+            dataProxy[i] = temp[i];
+        }
+    };
+
+    this['save'] = function() {
+        return data.toBase64();
+    }
     
     this['poke'] = function(address, value) {
         dataProxy[(address - 16384) & 0x1fff] = value & 255;

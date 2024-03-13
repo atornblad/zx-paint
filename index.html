@@ -13,39 +13,39 @@
         <li><button popovertarget="menu-file-items" id="menu-file"><u>F</u>ile</button>
             <div id="menu-file-items" popover>
                 <menu>
-                    <li><button id="menu-file-new"><u>N</u>ew</button></li>
+                    <li><button data-command="new()" id="menu-file-new"><u>N</u>ew</button></li>
                     <li><hr></li>
-                    <li><button id="menu-file-open"><u>O</u>pen...</button></li>
-                    <li><button id="menu-file-save"><u>S</u>ave</button></li>
-                    <li><button id="menu-file-save-as">Save <u>a</u>s...</button></li>
-                    <li><button id="menu-file-export"><u>E</u>xport...</button></li>
+                    <li><button data-command="open()" id="menu-file-open"><u>O</u>pen...</button></li>
+                    <li><button data-command="save()" id="menu-file-save"><u>S</u>ave</button></li>
+                    <li><button data-command="saveas()" id="menu-file-save-as">Save <u>a</u>s...</button></li>
+                    <li><button data-command="export()" id="menu-file-export"><u>E</u>xport...</button></li>
                 </menu>
             </div></li>
         <li><button popovertarget="menu-edit-items" id="menu-edit"><u>E</u>dit</button>
             <div id="menu-edit-items" popover>
                 <menu>
-                    <li><button id="menu-edit-undo"><u>U</u>ndo</button></li>
-                    <li><button id="menu-edit-redo"><u>R</u>edo</button></li>
+                    <li><button data-command="undo()" id="menu-edit-undo"><u>U</u>ndo</button></li>
+                    <li><button data-command="redo()" id="menu-edit-redo"><u>R</u>edo</button></li>
                     <li><hr></li>
-                    <li><button id="menu-edit-cut">Cu<u>t</u></button></li>
-                    <li><button id="menu-edit-copy"><u>C</u>opy</button></li>
-                    <li><button id="menu-edit-paste"><u>P</u>aste</button></li>
+                    <li><button data-command="cut()" id="menu-edit-cut">Cu<u>t</u></button></li>
+                    <li><button data-command="copy()" id="menu-edit-copy"><u>C</u>opy</button></li>
+                    <li><button data-command="paste()" id="menu-edit-paste"><u>P</u>aste</button></li>
                 </menu>
             </div></li>
         <li><button popovertarget="menu-view-items" id="menu-view"><u>V</u>iew</button>
             <div id="menu-view-items" popover>
                 <menu>
-                    <li><button id="menu-view-colours" data-command="colourmode:colours"><u>C</u>olours</button></li>
-                    <li><button id="menu-view-mono" data-command="colourmode:monochrome"><u>M</u>onochrome</button></li>
+                    <li><button data-command="colourmode:colours" id="menu-view-colours"><u>C</u>olours</button></li>
+                    <li><button data-command="colourmode:monochrome" id="menu-view-mono"><u>M</u>onochrome</button></li>
                 </menu>
             </div></li>
         <li><button popovertarget="menu-tools-items" id="menu-tools"><u>T</u>ools</button>
             <div id="menu-tools-items" popover>
                 <menu>
-                    <li><button id="menu-tool-pencil" data-command="tool:pencil"><u>P</u>encil</button></li>
-                    <li><button id="menu-tool-brush" data-command="tool:brush"><u>B</u>rush</button></li>
-                    <li><button id="menu-tool-eraser" data-command="tool:eraser"><u>E</u>raser</button></li>
-                    <li><button id="menu-tool-dropper" data-command="tool:dropper"><u>D</u>ropper</button></li>
+                    <li><button data-command="tool:pencil" id="menu-tool-pencil"><u>P</u>encil</button></li>
+                    <li><button data-command="tool:brush" id="menu-tool-brush"><u>B</u>rush</button></li>
+                    <li><button data-command="tool:eraser" id="menu-tool-eraser"><u>E</u>raser</button></li>
+                    <li><button data-command="tool:dropper" id="menu-tool-dropper"><u>D</u>ropper</button></li>
                 </menu>
             </div></li>
     </menu>
@@ -85,6 +85,12 @@
         <li><button id="colour-keep" data-command="setkeepbg(true)" title="Keep Background">Keep background</button></li>
     </menu>
     <canvas id="paint-canvas"></canvas>
+    <dialog id="open-file-dialog">
+        <h1>Open file</h1>
+        <ul class="file-list"></ul>
+        <button class="cancel-button" data-dialogaction="cancel">Cancel</button>
+        <button class="ok-button" data-dialogaction="ok">Open</button>
+    </dialog>
     <script type="module" src="./zx-paint.js"></script>
 </body>
 </html>
