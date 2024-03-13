@@ -92,6 +92,8 @@ const Bitmap = Spectrum['Bitmap'] = function Bitmap(options) {
         "target" : null,
         "clear": false
     });
+
+    this['onFlashChange'] = null;
     
     const data = new Uint8ClampedArray(TOTALSIZE);
     
@@ -159,6 +161,7 @@ const Bitmap = Spectrum['Bitmap'] = function Bitmap(options) {
     
     let flashPhase = 0;
     let lastFlashPhase = 0;
+    let monochromeMode = false;
     
     const refreshFunc = function() {
         flashPhase = (flashPhase + 1) & 0x3f;
@@ -193,8 +196,13 @@ x: 0..31
 */                
             const offsetFirst = xBlockIndex | (yBlockIndexNotShifted & 0x00e0) | ((yBlockIndexNotShifted & 0x0300) << 3);
             
-            let ink = (attributeByte & 0x07) | ((attributeByte & 0x40) >> 3);
-            let paper = (attributeByte & 0x78) >> 3;
+            const rawInk = monochromeMode ? 0 : (attributeByte & 0x07);
+            const rawPaper = monochromeMode ? 7 : ((attributeByte & 0x38) >> 3);
+            const rawBrightAdd = (attributeByte & 0x40) >> 3;
+
+            let ink = rawInk + rawBrightAdd;
+            let paper = rawPaper + rawBrightAdd;
+
             if (flash && (flashPhase & 0x20)) {
                 [ink, paper] = [paper, ink];
             }
@@ -301,6 +309,23 @@ x: 0..31
     
     this['realSpectrumCoords'] = function(value) {
         realSpectrumCoords = value ? 1 : 0;
+    };
+
+    this['redraw'] = function() {
+        hasDirt = true;
+        dirtMinBlock = 0;
+        dirtMaxBlock = BLOCKWIDTH * BLOCKHEIGHT - 1;
+        for (let i = dirtMinBlock; i <= dirtMaxBlock; ++i) {
+            dirty[i] = 1;
+        }
+        refreshFunc();
+    }
+
+    this['monochrome'] = function(value) {
+        const newMode = value ? 1 : 0;
+        if (monochromeMode === newMode) return;
+        monochromeMode = newMode;
+        this.redraw();
     };
 
     this['load'] = function(data) {

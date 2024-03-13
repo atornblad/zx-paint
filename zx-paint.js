@@ -50,6 +50,8 @@ const applyState = (propertyName, value) => {
         state[propertyName] = value;
     }
 
+    bitmap.monochrome(state.colourmode === 'monochrome');
+
     for (const button of allButtons) {
         const command = button.dataset.command;
         if (command) {
